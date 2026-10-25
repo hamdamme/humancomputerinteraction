@@ -16,7 +16,7 @@ The summary describes the recorded sessions only. It does not establish that a d
 python3 src/session_summary.py data/example_sessions.csv
 ```
 
-The input CSV must contain `session_id`, `task`, `outcome`, and `duration_seconds`. Outcome values are `complete`, `blocked`, or `abandoned`. Duration must be a nonnegative number of seconds. A blank duration is allowed when timing was not recorded.
+Each row records one task in one session, so a session ID may appear on several rows for different tasks. The input CSV must contain `session_id`, `task`, `outcome`, and `duration_seconds`. Outcome values are `complete`, `blocked`, or `abandoned`. Duration must be a nonnegative number of seconds. A blank duration is allowed when timing was not recorded.
 
 ## Reading
 
