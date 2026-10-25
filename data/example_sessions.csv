@@ -1,0 +1,5 @@
+session_id,task,outcome,duration_seconds
+s01,create account,complete,84
+s02,create account,blocked,132
+s03,find order,complete,51
+s04,find order,complete,
