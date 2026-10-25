@@ -23,7 +23,7 @@ def summarize(stream: TextIO) -> list[dict[str, object]]:
         raise ValueError("Missing CSV columns: " + ", ".join(sorted(missing)))
 
     rows: dict[str, list[tuple[str, float | None]]] = defaultdict(list)
-    seen_sessions: set[str] = set()
+    seen_records: set[tuple[str, str]] = set()
     for line_number, row in enumerate(reader, start=2):
         session_id = (row.get("session_id") or "").strip()
         task = (row.get("task") or "").strip()
@@ -31,9 +31,10 @@ def summarize(stream: TextIO) -> list[dict[str, object]]:
         raw_duration = (row.get("duration_seconds") or "").strip()
         if not session_id or not task:
             raise ValueError(f"Line {line_number}: session_id and task are required")
-        if session_id in seen_sessions:
-            raise ValueError(f"Line {line_number}: session_id must be unique")
-        seen_sessions.add(session_id)
+        record_key = (session_id, task)
+        if record_key in seen_records:
+            raise ValueError(f"Line {line_number}: session_id and task must be unique")
+        seen_records.add(record_key)
         if outcome not in VALID_OUTCOMES:
             raise ValueError(f"Line {line_number}: outcome must be one of {sorted(VALID_OUTCOMES)}")
         try:
